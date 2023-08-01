@@ -34,7 +34,7 @@ Note: It will require you a code you have set on your discord account, type it i
 
 ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/21f10a23-26ab-4760-a183-b1f6e9c6e106)
 
-After you saved this token, clone this repository using `git clone https://github.com/yakovexplorer/DiscordTransBot.git`, and then cd to it: `cd DiscordTransBot`
+After you saved this token, clone this repository using `git clone https://github.com/yakovexplorer/DiscordTranslateBot.git`, and then cd to it: `cd DiscordTranslateBot`
 
 Then, rename "env.example" to ".env" and open it. Paste your token in where "DISCORD_TOKEN" is located. And save.
 
