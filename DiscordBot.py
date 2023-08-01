@@ -19,11 +19,11 @@ bot = discord.Bot()
 async def update_status():
     while True:
         await bot.change_presence(activity=discord.Game(name=f"in {len(bot.guilds)} servers"))
-        await asyncio.sleep(20)
+        await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="/translate to translate"))
-        await asyncio.sleep(20)
+        await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="/help to call help"))
-        await asyncio.sleep(20)
+        await asyncio.sleep(60)
 
 def fetch_translator(user_id):
     with open('./JSONsDir/translators.json') as json_file:
