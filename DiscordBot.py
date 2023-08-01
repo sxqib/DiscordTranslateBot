@@ -145,5 +145,26 @@ async def change_translator(ctx, service: str = None):
     embed.set_footer(text="Made by TransBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
 
+@bot.command(description="Displays this help text")
+async def help(ctx):
+    embed = discord.Embed(
+        title="TransBot Help",
+        description="List of commands are:",
+        color=discord.Colour.blue()
+    )
+    embed.add_field(name="translate <text> <from_lang> <to_lang>", 
+                    value="Translates the text from `from_lang` to `to_lang`.", 
+                    inline=False)
+    embed.add_field(name="ping", 
+                    value="Checks the bot's latency.", 
+                    inline=False)
+    embed.add_field(name="change_translator <service>", 
+                    value="Changes the translator service to `service`.", 
+                    inline=False)
+    embed.add_field(name="help", 
+                    value="Displays this help text.", 
+                    inline=False)
+    embed.set_footer(text="Made by TransBot team.")
+    await ctx.send(embed=embed)
 
 bot.run(TOKEN)
