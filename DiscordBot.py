@@ -24,6 +24,8 @@ async def update_status():
         await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="/help to call help"), status=Status.idle)
         await asyncio.sleep(60)
+        await bot.change_presence(activity=discord.Game(name="made by TransBot team"), status=Status.idle)
+        await asyncio.sleep(60)
 
 def fetch_translator(user_id):
     with open('./JSONsDir/translators.json') as json_file:
