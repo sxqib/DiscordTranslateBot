@@ -105,7 +105,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     embed3.add_field(name="Service used", value=str(translator), inline=False)
     embed3.add_field(name="Original text", value=text, inline=False)
     embed3.add_field(name="Result Text", value="Your translated text is: " + str(translated.result), inline=False)
-    embed3.set_footer(text="Made by TransBot team.")
+    embed3.set_footer(text=f"Made by TransBot team. Request by {ctx.author.name}.") 
 
     await ctx.send(embed=embed3)
 
