@@ -68,7 +68,6 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     loop = asyncio.get_event_loop()
 
     try:
-        await ctx.defer()
         translated = await translatefunc(loop, text, from_lang, to_lang, translator)
     except Exception as E:
         embed2 = discord.Embed(
