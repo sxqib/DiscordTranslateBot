@@ -2,7 +2,7 @@ import discord
 import os
 import asyncio
 import json
-from discord import Activity, ActivityType
+from discord import Activity, ActivityType, Status
 from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
 from translatepy.translators.yandex import YandexTranslate
@@ -18,11 +18,11 @@ bot = discord.Bot()
 
 async def update_status():
     while True:
-        await bot.change_presence(activity=discord.Game(name=f"in {len(bot.guilds)} servers"))
+        await bot.change_presence(activity=discord.Game(name=f"in {len(bot.guilds)} servers"), status=Status.idle)
         await asyncio.sleep(60)
-        await bot.change_presence(activity=discord.Game(name="/translate to translate"))
+        await bot.change_presence(activity=discord.Game(name="/translate to translate"), status=Status.idle)
         await asyncio.sleep(60)
-        await bot.change_presence(activity=discord.Game(name="/help to call help"))
+        await bot.change_presence(activity=discord.Game(name="/help to call help"), status=Status.idle)
         await asyncio.sleep(60)
 
 def fetch_translator(user_id):
