@@ -162,6 +162,10 @@ async def change_translator(ctx, service: str = None):
 
 @bot.command(description="Displays this help text")
 async def help(ctx):
+    with open('./JSONsDir/avaliable.json') as avaliable_file:
+        avaliable_translators = json.load(avaliable_file)
+    translators = ', '.join(f'`{t}`' for t in avaliable_translators)
+
     embed = discord.Embed(
         title="TransBot Help",
         description="List of commands are:",
@@ -174,12 +178,12 @@ async def help(ctx):
                     value="Checks the bot's latency.", 
                     inline=False)
     embed.add_field(name="change_translator <service>", 
-                    value="Changes the translator service to `service`.", 
+                    value=f"Changes the translator service to `service`. Available translators are: {translators}", 
                     inline=False)
     embed.add_field(name="help", 
                     value="Displays this help text.", 
                     inline=False)
     embed.set_footer(text="Made by TransBot team.")
-    await ctx.respond(embed=embed, ephemeral=True)
+    await ctx.send(embed=embed)
 
 bot.run(TOKEN)
