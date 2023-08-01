@@ -2,18 +2,28 @@ import discord
 import os
 import asyncio
 import json
+from discord import Activity, ActivityType
+from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
 from translatepy.translators.yandex import YandexTranslate
 from translatepy.translators.microsoft import MicrosoftTranslate
 from translatepy.translators.reverso import ReversoTranslate
 from translatepy.translators.deepl import DeeplTranslate
-from dotenv import load_dotenv
 
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = discord.Bot()
+
+async def update_status():
+    while True:
+        await bot.change_presence(activity=discord.Game(name=f"in {len(bot.guilds)} servers"))
+        await asyncio.sleep(20)
+        await bot.change_presence(activity=discord.Game(name="/translate to translate"))
+        await asyncio.sleep(20)
+        await bot.change_presence(activity=discord.Game(name="/help to call help"))
+        await asyncio.sleep(20)
 
 def fetch_translator(user_id):
     with open('./JSONsDir/translators.json') as json_file:
@@ -42,6 +52,11 @@ def fetch_translator_service(service_name):
 
 async def translatefunc(loop, text: str = None, from_lang: str = None, to_lang: str = None, translator = None):
     return await loop.run_in_executor(None, lambda: translator.translate(text, source_language=from_lang, destination_language=to_lang))
+
+@bot.event
+async def on_ready():
+    bot.loop.create_task(update_status())
+    print("Bot is ready")
 
 @bot.command(description="Translates the text to a selected language")
 async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str = None):
