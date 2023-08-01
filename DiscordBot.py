@@ -68,6 +68,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     loop = asyncio.get_event_loop()
 
     try:
+        await ctx.defer()
         translated = await translatefunc(loop, text, from_lang, to_lang, translator)
     except Exception as E:
         embed2 = discord.Embed(
@@ -88,6 +89,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     embed3.add_field(name="Text language", value="Your text language: " + str(from_lang), inline=False)
     embed3.add_field(name="Target language", value="Your text target language: " + str(to_lang), inline=False)
     embed3.add_field(name="Service used", value=str(translator), inline=False)
+    embed3.add_field(name="Original text", value=text, inline=False)
     embed3.add_field(name="Result Text", value="Your translated text is: " + str(translated.result), inline=False)
     embed3.set_footer(text="Made by TransBot team.")
 
