@@ -165,6 +165,6 @@ async def help(ctx):
                     value="Displays this help text.", 
                     inline=False)
     embed.set_footer(text="Made by TransBot team.")
-    await ctx.send(embed=embed)
+    await ctx.respond(embed=embed, ephemeral=True)
 
 bot.run(TOKEN)
