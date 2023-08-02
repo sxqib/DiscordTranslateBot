@@ -1,7 +1,7 @@
 import discord
 import os
 import asyncio
-import json
+import aiofiles
 import platform
 import psutil
 from discord import Activity, ActivityType, Status
@@ -32,9 +32,9 @@ async def update_status():
         await asyncio.sleep(60)
 
 async def fetch_translator(user_id):
-    loop = asyncio.get_event_loop()
-    with open('./JSONsDir/translators.json', 'r') as f:
-        translators = await loop.run_in_executor(None, lambda: json.load(f))
+    async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
+        translators = await f.read()
+    translators = json.loads(translators)
 
     user = str(user_id)
     
@@ -138,9 +138,9 @@ async def change_translator(ctx, service: str = None):
         await ctx.respond(embed=embed, ephemeral=True)
         return
 
-    loop = asyncio.get_event_loop()
-    with open('./JSONsDir/avaliable.json', 'r') as f:
-        avaliable_translators = await loop.run_in_executor(None, lambda: json.load(f))
+    async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
+        avaliable_translators = await f.read()
+    avaliable_translators = json.loads(avaliable_translators)
     
     if service not in avaliable_translators:
         embed = discord.Embed(
@@ -152,13 +152,14 @@ async def change_translator(ctx, service: str = None):
         await ctx.respond(embed=embed, ephemeral=True)
         return
     
-    with open('./JSONsDir/translators.json', 'r') as f:
-        translators = await loop.run_in_executor(None, lambda: json.load(f))
+    async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
+        translators = await f.read()
+    translators = json.loads(translators)
     
     translators[str(ctx.author.id)] = service
     
-    with open('./JSONsDir/translators.json', 'w') as f:
-        await loop.run_in_executor(None, lambda: json.dump(translators, f))
+    async with aiofiles.open('./JSONsDir/translators.json', 'w') as f:
+        await f.write(json.dumps(translators))
     
     embed = discord.Embed(
         title="Service Changed!",
