@@ -71,3 +71,7 @@ Copy the link below and paste it in your browser. You are able to invite your bo
 ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/1a1b3423-5dda-4dd1-9f3d-188033365043)
 
 ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/9a4b2a2f-2afa-49cc-9df6-a2c330e758cc)
+
+----------------------------------------------------------
+
+The code is licensed under GNU General Public License v3.0, I recommend reading conditions here: [file](https://github.com/yakovexplorer/DiscordTranslateBot/blob/main/LICENSE)
