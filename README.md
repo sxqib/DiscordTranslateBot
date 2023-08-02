@@ -74,4 +74,4 @@ Copy the link below and paste it in your browser. You are able to invite your bo
 
 ----------------------------------------------------------
 
-The code is licensed under GNU General Public License v3.0, I recommend reading conditions here: [file](https://github.com/yakovexplorer/DiscordTranslateBot/blob/main/LICENSE)
+The code is licensed under [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html), I recommend reading conditions here: [file](https://github.com/yakovexplorer/DiscordTranslateBot/blob/main/LICENSE)
