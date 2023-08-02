@@ -23,13 +23,13 @@ async def update_status():
     while True:
         await bot.change_presence(activity=discord.Game(name=f"/help in {len(bot.guilds)} servers"), status=Status.idle)
         await asyncio.sleep(60)
-        await bot.change_presence(activity=discord.Game(name="Serving {} translation requests".format(len(set(bot.get_all_members())))), status=Status.idle)
+        await bot.change_presence(activity=discord.Game(name="serving {} translation requests today".format(len(set(bot.get_all_members())))), status=Status.idle)
         await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="/translate to translate text"), status=Status.idle)
         await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="bot made by TransBot team"), status=Status.idle)
         await asyncio.sleep(60)
-        await bot.change_presence(activity=discord.Game(name="Invite me: https://i8.ae/qDPOb"), status=Status.idle)
+        await bot.change_presence(activity=discord.Game(name="invite me: https://i8.ae/qDPOb"), status=Status.idle)
         await asyncio.sleep(60)
 
 async def fetch_translator(user_id):
@@ -40,11 +40,11 @@ async def fetch_translator(user_id):
     user = str(user_id)
     
     if user in translators:
-        return fetch_translator_service(translators[user])
+        return await fetch_translator_service(translators[user])
     else:  # fallback to DeeplTranslate
         return DeeplTranslate()
 
-def fetch_translator_service(service_name):
+async def fetch_translator_service(service_name):
     translator_service = {
         'DeepL': DeeplTranslate,
         'Google': GoogleTranslate,
@@ -78,7 +78,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
         await ctx.respond(embed=embed, ephemeral=True)
         return
 
-    translator = fetch_translator(ctx.author.id)
+    translator = await fetch_translator(ctx.author.id)
     
     embed = discord.Embed(
         title="Please wait...",
