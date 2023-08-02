@@ -2,6 +2,8 @@ import discord
 import os
 import asyncio
 import json
+import platform
+import psutil
 from discord import Activity, ActivityType, Status
 from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
@@ -187,6 +189,34 @@ async def help(ctx):
     embed.add_field(name="help", 
                     value="Displays this help text.", 
                     inline=False)
+    embed.set_footer(text="Made by TransBot team.")
+    await ctx.respond(embed=embed, ephemeral=True)
+
+@bot.command(description="Displays information about the shard")
+async def shardinfo(ctx):
+    shard_id = ctx.guild.shard_id if ctx.guild else 0
+    shard = bot.get_shard(shard_id)
+
+    embed = discord.Embed(
+        title=f"Shard Information 📊",
+        description=f"Shard ID: `{shard_id}`\n"
+                    f"Guild Count: `{len(shard.guilds)}`\n"
+                    f"User Count: `{sum(guild.member_count for guild in shard.guilds)}`",
+        color=discord.Colour.blue(),
+    )
+    embed.set_footer(text="Made by TransBot team.")
+    await ctx.respond(embed=embed, ephemeral=True)
+
+@bot.command(description="Displays information about the host")
+async def hostinfo(ctx):
+    embed = discord.Embed(
+        title=f"Host Information 🖥️",
+        description=f"System: `{platform.system()}`\n"
+                    f"Python Version: `{platform.python_version()}`\n"
+                    f"CPU Usage: `{psutil.cpu_percent()}%`\n"
+                    f"RAM Usage: `{psutil.virtual_memory().percent}%`",
+        color=discord.Colour.blue(),
+    )
     embed.set_footer(text="Made by TransBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
 
