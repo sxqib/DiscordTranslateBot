@@ -128,7 +128,7 @@ async def ping(ctx):
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Changes the translator service")
-async def change_translator(ctx, service: str = None):
+async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Reverso", "Microsoft"])):
     if not service:
         embed = discord.Embed(
             title="Missing Parameters!",
