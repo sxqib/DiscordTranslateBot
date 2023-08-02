@@ -33,7 +33,7 @@ async def update_status():
 
 async def fetch_translator(user_id):
     loop = asyncio.get_event_loop()
-    translators = await loop.run_in_executor(None, json.load, open('./JSONsDir/translators.json'))
+    translators = await loop.run_in_executor(None, lambda: json.load(open('./JSONsDir/translators.json')))
 
     user = str(user_id)
     
@@ -138,7 +138,7 @@ async def change_translator(ctx, service: str = None):
         return
 
     loop = asyncio.get_event_loop()
-    avaliable_translators = await loop.run_in_executor(None, json.load, open('./JSONsDir/avaliable.json'))
+    avaliable_translators = await loop.run_in_executor(None, lambda: json.load(open('./JSONsDir/avaliable.json')))
     
     if service not in avaliable_translators:
         embed = discord.Embed(
@@ -150,11 +150,11 @@ async def change_translator(ctx, service: str = None):
         await ctx.respond(embed=embed, ephemeral=True)
         return
     
-    translators = await loop.run_in_executor(None, json.load, open('./JSONsDir/translators.json'))
+    translators = await loop.run_in_executor(None, lambda: json.load(open('./JSONsDir/translators.json')))
     
     translators[str(ctx.author.id)] = service
     
-    await loop.run_in_executor(None, json.dump, open('./JSONsDir/translators.json'))
+    await loop.run_in_executor(None, lambda: json.dump(open('./JSONsDir/translators.json')))
     
     embed = discord.Embed(
         title="Service Changed!",
