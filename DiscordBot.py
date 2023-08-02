@@ -174,7 +174,7 @@ async def change_translator(ctx, service: str = None):
 async def help(ctx):
     async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
         avaliable_translators = await f.read()
-    avaliable_translators = json.loads(translators)
+    avaliable_translators = json.loads(avaliable_translators)
     
     translators = ', '.join(f'`{t}`' for t in avaliable_translators)
 
