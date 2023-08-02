@@ -70,7 +70,7 @@ async def on_ready():
 async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str = None):
     if not (text and from_lang and to_lang):
         embed = discord.Embed(
-            title="Missing Parameters!",
+            title="❌ Missing Parameters!",
             description="Parameters (text, from_lang, and to_lang) are required!",
             color=discord.Colour.red(),
         )
@@ -81,7 +81,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     translator = await fetch_translator(ctx.author.id)
     
     embed = discord.Embed(
-        title="Please wait...",
+        title="⏳ Please wait...",
         description="Please wait while your request is in process...",
         color=discord.Colour.yellow(),
     )
@@ -94,8 +94,8 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
         translated = await translatefunc(loop, text, from_lang, to_lang, translator)
     except Exception as E:
         embed2 = discord.Embed(
-            title="An error occured!",
-            description="An error occured while translating text: " + str(E),
+            title="❌ An error occured!",
+            description="An error occured while translating text. Details: " + str(E),
             color=discord.Colour.red(),
         )
         embed2.set_footer(text="Made by TranslatorBot team.")
@@ -104,7 +104,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
         return
 
     embed3 = discord.Embed(
-        title="We do have results!",
+        title="✅ We do have results!",
         description="Your text was translated! The config and the text are below:",
         color=discord.Colour.green(),
     )
@@ -120,7 +120,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
 @bot.command(description="Checks the bot's latency")
 async def ping(ctx):
     embed = discord.Embed(
-        title="Pong!",
+        title="🏓 Pong!",
         description="Latency is {} ms".format(round(bot.latency * 1000)),
         color=discord.Colour.green(),
     )
@@ -139,7 +139,7 @@ async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", 
         await f.write(json.dumps(translators))
     
     embed = discord.Embed(
-        title="Service Changed!",
+        title="✅ Service Changed!",
         description="Translator service has been successfully changed to {} Translate.".format(service),
         color=discord.Colour.green(),
     )
@@ -155,7 +155,7 @@ async def help(ctx):
     translators = ', '.join(f'`{t}`' for t in avaliable_translators)
 
     embed = discord.Embed(
-        title="TransBot Help",
+        title="📜 TransBot Help",
         description="List of commands are:",
         color=discord.Colour.blue()
     )
@@ -186,7 +186,7 @@ async def shardinfo(ctx):
     total_shards = bot.shard_count if bot.shard_count else 'None (bot not sharded)'
 
     embed = discord.Embed(
-        title=f"Shard Information 📊",
+        title=f"📊 Shard Information",
         description=f"Shard ID: `{shard_id}`\nTotal shards: `{total_shards}`",
         color=discord.Colour.blue(),
     )
@@ -196,7 +196,7 @@ async def shardinfo(ctx):
 @bot.command(description="Displays information about the host")
 async def hostinfo(ctx):
     embed = discord.Embed(
-        title=f"Host Information 🖥️",
+        title=f"🖥️ Host Information",
         description=f"System: `{platform.system()}`\n"
                     f"Python Version: `{platform.python_version()}`\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
