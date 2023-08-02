@@ -172,8 +172,10 @@ async def change_translator(ctx, service: str = None):
 
 @bot.command(description="Displays this help text")
 async def help(ctx):
-    with open('./JSONsDir/avaliable.json') as avaliable_file:
-        avaliable_translators = json.load(avaliable_file)
+    async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
+        avaliable_translators = await f.read()
+    avaliable_translators = json.loads(translators)
+    
     translators = ', '.join(f'`{t}`' for t in avaliable_translators)
 
     embed = discord.Embed(
