@@ -27,7 +27,7 @@ async def update_status():
         await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="/translate to translate text"), status=Status.idle)
         await asyncio.sleep(60)
-        await bot.change_presence(activity=discord.Game(name="bot made by TransBot team"), status=Status.idle)
+        await bot.change_presence(activity=discord.Game(name="bot made by TranslatorBot team"), status=Status.idle)
         await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="invite me: https://i8.ae/qDPOb"), status=Status.idle)
         await asyncio.sleep(60)
@@ -74,7 +74,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
             description="Parameters (text, from_lang, and to_lang) are required!",
             color=discord.Colour.red(),
         )
-        embed.set_footer(text="Made by TransBot team.")
+        embed.set_footer(text="Made by TranslatorBot team.")
         await ctx.respond(embed=embed, ephemeral=True)
         return
 
@@ -85,7 +85,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
         description="Please wait while your request is in process...",
         color=discord.Colour.yellow(),
     )
-    embed.set_footer(text="Made by TransBot team.")
+    embed.set_footer(text="Made by TranslatorBot team.")
 
     await ctx.respond(embed=embed, ephemeral=True)
     loop = asyncio.get_event_loop()
@@ -98,7 +98,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
             description="An error occured while translating text: " + str(E),
             color=discord.Colour.red(),
         )
-        embed2.set_footer(text="Made by TransBot team.")
+        embed2.set_footer(text="Made by TranslatorBot team.")
 
         await ctx.respond(embed=embed2, ephemeral=True)
         return
@@ -113,7 +113,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     embed3.add_field(name="Service used", value=str(translator), inline=False)
     embed3.add_field(name="Original text", value=text, inline=False)
     embed3.add_field(name="Result Text", value="Your translated text is: " + str(translated.result), inline=False)
-    embed3.set_footer(text=f"Made by TransBot team. Request by {ctx.author.name}.") 
+    embed3.set_footer(text=f"Made by TranslatorBot team. Request by {ctx.author.name}.") 
 
     await ctx.send(embed=embed3)
 
@@ -124,7 +124,7 @@ async def ping(ctx):
         description="Latency is {} ms".format(round(bot.latency * 1000)),
         color=discord.Colour.green(),
     )
-    embed.set_footer(text="Made by TransBot team.")
+    embed.set_footer(text="Made by TranslatorBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Changes the translator service")
@@ -135,7 +135,7 @@ async def change_translator(ctx, service: str = None):
             description="The service name is a required parameter!",
             color=discord.Colour.red(),
         )
-        embed.set_footer(text="Made by TransBot team.")
+        embed.set_footer(text="Made by TranslatorBot team.")
         await ctx.respond(embed=embed, ephemeral=True)
         return
 
@@ -149,7 +149,7 @@ async def change_translator(ctx, service: str = None):
             description="The service name provided is not available!",
             color=discord.Colour.red(),
         )
-        embed.set_footer(text="Made by TransBot team.")
+        embed.set_footer(text="Made by TranslatorBot team.")
         await ctx.respond(embed=embed, ephemeral=True)
         return
     
@@ -167,7 +167,7 @@ async def change_translator(ctx, service: str = None):
         description="Translator service has been successfully changed to {}.".format(service),
         color=discord.Colour.green(),
     )
-    embed.set_footer(text="Made by TransBot team.")
+    embed.set_footer(text="Made by TranslatorBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Displays this help text")
@@ -199,7 +199,7 @@ async def help(ctx):
     embed.add_field(name="help", 
                     value="Displays this help text.", 
                     inline=False)
-    embed.set_footer(text="Made by TransBot team.")
+    embed.set_footer(text="Made by TranslatorBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Displays information about the shard")
@@ -212,7 +212,7 @@ async def shardinfo(ctx):
         description=f"Shard ID: `{shard_id}`\nTotal shards: `{total_shards}`",
         color=discord.Colour.blue(),
     )
-    embed.set_footer(text="Made by TransBot team.")
+    embed.set_footer(text="Made by TranslatorBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Displays information about the host")
@@ -225,7 +225,7 @@ async def hostinfo(ctx):
                     f"RAM Usage: `{psutil.virtual_memory().percent}%`",
         color=discord.Colour.blue(),
     )
-    embed.set_footer(text="Made by TransBot team.")
+    embed.set_footer(text="Made by TranslatorBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
 
 bot.run(TOKEN)
