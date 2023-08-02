@@ -1,4 +1,6 @@
-# DiscordTransBot
+# DiscordTranslatorBot
+
+I will keep TransBot here, because I am too lazy. __TransBot is "TranslatorBot", remember that.__
 
 Hello, this is my project on Pycord. In this read me, I will instruct you, how to set it up on your computer.
 
