@@ -22,7 +22,7 @@ async def update_status():
     while True:
         await bot.change_presence(activity=discord.Game(name=f"/help in {len(bot.guilds)} servers"), status=Status.idle)
         await asyncio.sleep(60)
-        await bot.change_presence(activity=discord.Game(name="Serving {} users".format(len(set(bot.get_all_members())))), status=Status.idle)
+        await bot.change_presence(activity=discord.Game(name="Serving {} translation requests".format(len(set(bot.get_all_members())))), status=Status.idle)
         await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="/translate to translate text"), status=Status.idle)
         await asyncio.sleep(60)
@@ -185,6 +185,12 @@ async def help(ctx):
                     inline=False)
     embed.add_field(name="change_translator <service>", 
                     value=f"Changes the translator service to `service`. Available translators are: {translators}", 
+                    inline=False)
+    embed.add_field(name="shardinfo", 
+                    value="Displays information about the shard.", 
+                    inline=False)
+    embed.add_field(name="hostinfo", 
+                    value="Displays information about the host.", 
                     inline=False)
     embed.add_field(name="help", 
                     value="Displays this help text.", 
