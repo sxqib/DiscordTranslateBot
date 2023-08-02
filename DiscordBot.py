@@ -194,14 +194,12 @@ async def help(ctx):
 
 @bot.command(description="Displays information about the shard")
 async def shardinfo(ctx):
-    shard_id = ctx.guild.shard_id if ctx.guild else 0
-    shard = bot.get_shard(shard_id)
+    shard_id = ctx.guild.shard_id if ctx.guild else 'None (bot not sharded)'
+    total_shards = bot.shard_count if bot.shard_count else 'None (bot not sharded)'
 
     embed = discord.Embed(
         title=f"Shard Information 📊",
-        description=f"Shard ID: `{shard_id}`\n"
-                    f"Guild Count: `{len(shard.guilds)}`\n"
-                    f"User Count: `{sum(guild.member_count for guild in shard.guilds)}`",
+        description=f"Shard ID: `{shard_id}`\nTotal shards: `{total_shards}`",
         color=discord.Colour.blue(),
     )
     embed.set_footer(text="Made by TransBot team.")
