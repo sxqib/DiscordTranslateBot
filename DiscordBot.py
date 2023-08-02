@@ -31,10 +31,10 @@ async def update_status():
         await bot.change_presence(activity=discord.Game(name="Invite me: https://i8.ae/qDPOb"), status=Status.idle)
         await asyncio.sleep(60)
 
-def fetch_translator(user_id):
-    with open('./JSONsDir/translators.json') as json_file:
-        translators = json.load(json_file)
-    
+async def fetch_translator(user_id):
+    loop = asyncio.get_event_loop()
+    translators = await loop.run_in_executor(None, json.load, open('./JSONsDir/translators.json'))
+
     user = str(user_id)
     
     if user in translators:
@@ -136,9 +136,9 @@ async def change_translator(ctx, service: str = None):
         embed.set_footer(text="Made by TransBot team.")
         await ctx.respond(embed=embed, ephemeral=True)
         return
-    
-    with open('./JSONsDir/avaliable.json') as avaliable_file:
-        avaliable_translators = json.load(avaliable_file)
+
+    loop = asyncio.get_event_loop()
+    avaliable_translators = await loop.run_in_executor(None, json.load, open('./JSONsDir/avaliable.json'))
     
     if service not in avaliable_translators:
         embed = discord.Embed(
@@ -150,13 +150,11 @@ async def change_translator(ctx, service: str = None):
         await ctx.respond(embed=embed, ephemeral=True)
         return
     
-    with open('./JSONsDir/translators.json') as json_file:
-        translators = json.load(json_file)
+    translators = await loop.run_in_executor(None, json.load, open('./JSONsDir/translators.json'))
     
     translators[str(ctx.author.id)] = service
     
-    with open('./JSONsDir/translators.json', 'w') as json_file:
-        json.dump(translators, json_file)
+    await loop.run_in_executor(None, json.dump, open('./JSONsDir/translators.json'))
     
     embed = discord.Embed(
         title="Service Changed!",
