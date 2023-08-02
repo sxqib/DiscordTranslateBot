@@ -2,6 +2,7 @@ import discord
 import os
 import asyncio
 import aiofiles
+import json
 import platform
 import psutil
 from discord import Activity, ActivityType, Status
