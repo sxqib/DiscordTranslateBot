@@ -110,7 +110,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     )
     embed3.add_field(name="Text language", value="Your text language: " + str(from_lang), inline=False)
     embed3.add_field(name="Target language", value="Your text target language: " + str(to_lang), inline=False)
-    embed3.add_field(name="Service used", value=str(translator), inline=False)
+    embed3.add_field(name="Service used", value=str(translator) + " Translate", inline=False)
     embed3.add_field(name="Original text", value=text, inline=False)
     embed3.add_field(name="Result Text", value="Your translated text is: " + str(translated.result), inline=False)
     embed3.set_footer(text=f"Made by TranslatorBot team. Request by {ctx.author.name}.") 
@@ -129,16 +129,6 @@ async def ping(ctx):
 
 @bot.command(description="Changes the translator service")
 async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Reverso", "Microsoft"])):
-    if not service:
-        embed = discord.Embed(
-            title="Missing Parameters!",
-            description="The service name is a required parameter!",
-            color=discord.Colour.red(),
-        )
-        embed.set_footer(text="Made by TranslatorBot team.")
-        await ctx.respond(embed=embed, ephemeral=True)
-        return
-
     async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
         avaliable_translators = await f.read()
     avaliable_translators = json.loads(avaliable_translators)
@@ -164,7 +154,7 @@ async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", 
     
     embed = discord.Embed(
         title="Service Changed!",
-        description="Translator service has been successfully changed to {}.".format(service),
+        description="Translator service has been successfully changed to {} Translate.".format(service),
         color=discord.Colour.green(),
     )
     embed.set_footer(text="Made by TranslatorBot team.")
