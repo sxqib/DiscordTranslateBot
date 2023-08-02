@@ -129,20 +129,6 @@ async def ping(ctx):
 
 @bot.command(description="Changes the translator service")
 async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Reverso", "Microsoft"])):
-    async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
-        avaliable_translators = await f.read()
-    avaliable_translators = json.loads(avaliable_translators)
-    
-    if service not in avaliable_translators:
-        embed = discord.Embed(
-            title="Invalid Parameters!",
-            description="The service name provided is not available!",
-            color=discord.Colour.red(),
-        )
-        embed.set_footer(text="Made by TranslatorBot team.")
-        await ctx.respond(embed=embed, ephemeral=True)
-        return
-    
     async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
         translators = await f.read()
     translators = json.loads(translators)
