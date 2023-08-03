@@ -25,18 +25,15 @@ class OpenAITranslate:
     def __str__(self):
         return "OpenAI"
     
-def openai_translate(text, source_language, target_language):
+async def openai_translate(text, source_language, target_language):
     prompt = f"""You are now a professional translator, who translates languages into ones which look like from a native speaker. In your response, ONLY include the translation, without anything else. You can accept translations to fun translation styles, such as UwU etc. Translate the text: "{text}", from: "{source_language}", to: "{target_language}".:"""
-    response = openai.Completion.create(
+    response = await openai.Completion.acreate(
         model="text-davinci-003",
         prompt=prompt,
         max_tokens=500,
         temperature=0,
     )
     return response['choices'][0]['text'].strip()
-
-async def openai_translate_async(loop, text, source_language, target_language):
-    return await loop.run_in_executor(None, openai_translate, text, source_language, target_language)
 
 bot = discord.Bot()
 
@@ -114,7 +111,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
 
     try:
         if isinstance(translator, OpenAITranslate):
-            translated_text = await openai_translate_async(loop, text, from_lang, to_lang)
+            translated_text = await openai_translate(text, from_lang, to_lang)
         else:
             translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
     except Exception as E:
