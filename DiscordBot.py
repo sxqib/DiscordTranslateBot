@@ -5,6 +5,7 @@ import aiofiles
 import json
 import platform
 import psutil
+import openai
 from discord import Activity, ActivityType, Status
 from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
@@ -15,7 +16,27 @@ from translatepy.translators.deepl import DeeplTranslate
 
 load_dotenv()
 
+
 TOKEN = os.getenv('DISCORD_TOKEN')
+openai.api_base = 'https://chimeragpt.adventblocks.cc/api/v1'
+openai.api_key = ''
+
+class OpenAITranslate:
+    def __str__(self):
+        return "OpenAI"
+    
+def openai_translate(text, source_language, target_language):
+    prompt = f"""You are now a professional translator, who translates languages into ones which look like from a native speaker. In your response, ONLY include the translation, without anything else. You can accept translations to fun translation styles, such as UwU etc. Translate the text: "{text}", from: "{source_language}", to: "{target_language}".:"""
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        max_tokens=500,
+        temperature=0,
+    )
+    return response['choices'][0]['text'].strip()
+
+async def openai_translate_async(loop, text, source_language, target_language):
+    return await loop.run_in_executor(None, openai_translate, text, source_language, target_language)
 
 bot = discord.Bot()
 
@@ -33,7 +54,7 @@ async def update_status():
         await asyncio.sleep(60)
 
 async def fetch_translator(user_id):
-    async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
+    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/translators.json", 'r') as f:
         translators = await f.read()
     translators = json.loads(translators)
 
@@ -50,7 +71,8 @@ async def fetch_translator_service(service_name):
         'Google': GoogleTranslate,
         'Yandex': YandexTranslate,
         'Reverso': ReversoTranslate,
-        'Microsoft': MicrosoftTranslate
+        'Microsoft': MicrosoftTranslate,
+        'OpenAI': OpenAITranslate,
     }
     
     if service_name in translator_service:
@@ -91,7 +113,10 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     loop = asyncio.get_event_loop()
 
     try:
-        translated = await translatefunc(loop, text, from_lang, to_lang, translator)
+        if isinstance(translator, OpenAITranslate):
+            translated_text = await openai_translate_async(loop, text, from_lang, to_lang)
+        else:
+            translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
     except Exception as E:
         embed2 = discord.Embed(
             title="❌ An error occured!",
@@ -112,7 +137,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     embed3.add_field(name="Target language", value="Your text target language: " + str(to_lang), inline=False)
     embed3.add_field(name="Service used", value=str(translator) + " Translate", inline=False)
     embed3.add_field(name="Original text", value=text, inline=False)
-    embed3.add_field(name="Result Text", value="Your translated text is: " + str(translated.result), inline=False)
+    embed3.add_field(name="Result Text", value="Your translated text is: " + str(translated_text), inline=False)
     embed3.set_footer(text=f"Made by TranslatorBot team. Request by {ctx.author.name}.") 
 
     await ctx.send(embed=embed3)
@@ -128,14 +153,14 @@ async def ping(ctx):
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Changes the translator service")
-async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Reverso", "Microsoft"])):
-    async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
+async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Reverso", "Microsoft", "OpenAI"])):
+    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/translators.json", 'r') as f:
         translators = await f.read()
     translators = json.loads(translators)
     
     translators[str(ctx.author.id)] = service
     
-    async with aiofiles.open('./JSONsDir/translators.json', 'w') as f:
+    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/translators.json", 'w') as f:
         await f.write(json.dumps(translators))
     
     embed = discord.Embed(
@@ -148,7 +173,7 @@ async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", 
 
 @bot.command(description="Displays this help text")
 async def help(ctx):
-    async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
+    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/avaliable.json", 'r') as f:
         avaliable_translators = await f.read()
     avaliable_translators = json.loads(avaliable_translators)
     
