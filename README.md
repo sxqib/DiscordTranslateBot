@@ -17,21 +17,29 @@ Before proceeding with the setup, ensure that the following requirements are met
 ## Bot Configuration
 
 1. Navigate to the [Discord Developer Portal](https://discord.com/developers/applications), sign in, and select the "New Application" button.
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/6efc3a3a-6610-40e4-a309-9b63cbdfb9f2)
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/6efc3a3a-6610-40e4-a309-9b63cbdfb9f2)
+
 
 2. Enter the desired bot name and accept the Terms of Service.
    
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/0c739128-a584-410c-9f27-a16008d7a156)
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/0c739128-a584-410c-9f27-a16008d7a156)
 
-4. Provide a description and tags for the bot, then select "Save Changes".
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/b5687685-9fa9-456d-9561-204c0a8bfd9d)
 
-5. Navigate to the "Bot" tab and create a new bot.
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/e3ae443f-c6e0-48b9-9686-330cad0dd078)
+3. Provide a description and tags for the bot, then select "Save Changes".
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/b5687685-9fa9-456d-9561-204c0a8bfd9d)
 
-6. Reset the bot token and store it in a secure location.
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/5c2425e9-61e8-48c7-9abb-616f098d5f7a)
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/f2ac7128-7c4e-478f-9edb-eb50c90aed0a)
+
+4. Navigate to the "Bot" tab and create a new bot.
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/e3ae443f-c6e0-48b9-9686-330cad0dd078)
+
+5. Reset the bot token and store it in a secure location.
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/5c2425e9-61e8-48c7-9abb-616f098d5f7a)
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/f2ac7128-7c4e-478f-9edb-eb50c90aed0a)
 
 ## Repository Setup
 
