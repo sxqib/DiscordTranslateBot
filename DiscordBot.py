@@ -19,7 +19,7 @@ load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 openai.api_base = 'https://chimeragpt.adventblocks.cc/api/v1'
-openai.api_key = ''
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 class OpenAITranslate:
     def __str__(self):
@@ -54,7 +54,7 @@ async def update_status():
         await asyncio.sleep(60)
 
 async def fetch_translator(user_id):
-    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/translators.json", 'r') as f:
+    async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
         translators = await f.read()
     translators = json.loads(translators)
 
@@ -154,13 +154,13 @@ async def ping(ctx):
 
 @bot.command(description="Changes the translator service")
 async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Reverso", "Microsoft", "OpenAI"])):
-    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/translators.json", 'r') as f:
+    async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
         translators = await f.read()
     translators = json.loads(translators)
     
     translators[str(ctx.author.id)] = service
     
-    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/translators.json", 'w') as f:
+    async with aiofiles.open('./JSONsDir/translators.json', 'w') as f:
         await f.write(json.dumps(translators))
     
     embed = discord.Embed(
@@ -173,7 +173,7 @@ async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", 
 
 @bot.command(description="Displays this help text")
 async def help(ctx):
-    async with aiofiles.open("C:/Users/Saqib/Downloads/Tools/DiscordTranslateBot/JSONsDir/avaliable.json", 'r') as f:
+    async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
         avaliable_translators = await f.read()
     avaliable_translators = json.loads(avaliable_translators)
     
