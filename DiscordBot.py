@@ -89,7 +89,7 @@ async def on_ready():
 
 @bot.command(description="Translates the text to a selected language")
 async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str = None, file: discord.Attachment = None):
-    if not (text or file and from_lang and to_lang):
+    if not ((text or file) and from_lang and to_lang):
         embed = discord.Embed(
             title="❌ Missing Parameters!",
             description="Parameters (text, from_lang, and to_lang) are required!",
