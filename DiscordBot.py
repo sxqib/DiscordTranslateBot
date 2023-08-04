@@ -35,7 +35,7 @@ async def openai_translate(text, source_language, target_language):
     num_tokens = len(encoding.encode(prompt))
     if (num_tokens + max_tokens) > 4097:
         raise ValueError(
-            "The prompt is too long for the model. "
+            "Your text is too long! "
         )
     response = await openai.Completion.acreate(
         model="text-davinci-003",
@@ -137,7 +137,21 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
 
     try:
         if isinstance(translator, OpenAITranslate):
-            translated_text = await openai_translate(text, from_lang, to_lang)
+            try:
+                translated_text = await openai_translate(text, from_lang, to_lang)
+            except Exception:
+                # Fallback to DeeplTranslate telling that it has been fallbacked
+                embed1 = discord.Embed(
+                    title="Fallbacked to DeeplTranslate!",
+                    description="An error occured while translating the text using OpenAI, translation will be done using Deepl",
+                    color=discord.Colour.orange(),
+                )
+                embed1.set_footer(text="Made by TranslatorBot team.")
+
+                await ctx.respond(embed=embed1, ephemeral=True)
+
+                translator = DeeplTranslate()
+                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
         else:
             translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
     except Exception as E:
@@ -175,7 +189,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     embed3.add_field(name="Result Text", value=result_text, inline=False)
     embed3.set_footer(text=f"Made by TranslatorBot team. Request by {ctx.author.name}.") 
 
-    await ctx.send(file=file, embed=embed3)
+    await ctx.send(content=ctx.author.mention, embed=embed3, file=file)
 
 @bot.command(description="Checks the bot's latency")
 async def ping(ctx):
