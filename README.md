@@ -59,6 +59,7 @@ Before proceeding with the setup, ensure that the following requirements are met
 5. Enter `pip install psutil` to install the Psutil library.
 6. Enter `pip install aiofiles` to install the Aiofiles library.
 7. Enter `pip install openai` to install the OpenAI library.
+8. Enter `pip install tiktoken` to install the tiktoken library.
 
 ## Bot Execution
 
