@@ -1,70 +1,82 @@
-# DiscordTranslatorBot
+# Discord Translator Bot
 
-I will keep TransBot here, because I am too lazy. __TransBot is "TranslatorBot", remember that.__
+This repository contains the source code for TransBot, a real-time message translation bot for Discord. TransBot is an abbreviation for "Translator Bot".
 
-Hello, this is my project on Pycord. In this read me, I will instruct you, how to set it up on your computer.
+## Overview
 
-For this you will need:
+This project is implemented using the Pycord library. This README provides detailed instructions on how to configure and deploy the bot on your local machine.
 
-- A discord bot
-- Python
-- and Py-cord installed
+## Prerequisites
 
-Let's get started by creating a bot.
-First, go to [Developer portal](https://discord.com/developers/applications), login and then click the "New application" blue button
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/6efc3a3a-6610-40e4-a309-9b63cbdfb9f2)
+Before proceeding with the setup, ensure that the following requirements are met:
 
-Then, fill in the bot name and click "I agree to the TOS"
+- A Discord bot
+- Python programming language
+- Py-cord library
 
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/0c739128-a584-410c-9f27-a16008d7a156)
+## Bot Configuration
 
-Then, fill in the bot description, tags, and then click "Save Changes" green button (it will appear for you)
+1. Navigate to the [Discord Developer Portal](https://discord.com/developers/applications), sign in, and select the "New Application" button.
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/6efc3a3a-6610-40e4-a309-9b63cbdfb9f2)
 
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/b5687685-9fa9-456d-9561-204c0a8bfd9d)
 
-Then click on "Bot" puzzle button
+2. Enter the desired bot name and accept the Terms of Service.
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/0c739128-a584-410c-9f27-a16008d7a156)
 
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/e3ae443f-c6e0-48b9-9686-330cad0dd078)
 
-And click create bot. After you did that, reset the token of it. (save it anywhere)
+3. Provide a description and tags for the bot, then select "Save Changes".
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/b5687685-9fa9-456d-9561-204c0a8bfd9d)
 
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/5c2425e9-61e8-48c7-9abb-616f098d5f7a)
 
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/f2ac7128-7c4e-478f-9edb-eb50c90aed0a)
+4. Navigate to the "Bot" tab and create a new bot.
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/e3ae443f-c6e0-48b9-9686-330cad0dd078)
 
-Note: It will require you a code you have set on your discord account, type it in and click Submit
+5. Reset the bot token and store it in a secure location.
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/5c2425e9-61e8-48c7-9abb-616f098d5f7a)
+   
+   ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/f2ac7128-7c4e-478f-9edb-eb50c90aed0a)
 
-![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/21f10a23-26ab-4760-a183-b1f6e9c6e106)
+## Repository Setup
 
-After you saved this token, clone this repository using `git clone https://github.com/yakovexplorer/DiscordTranslateBot.git`, and then cd to it: `cd DiscordTranslateBot`
+1. Clone this repository using the command `git clone https://github.com/yakovexplorer/DiscordTranslateBot.git`.
+2. Change the current working directory to the repository using `cd DiscordTranslateBot`.
+3. Rename the file "env.example" to ".env" and open it for editing.
+4. Add the values for "DISCORD_TOKEN", and "OPENAI_API_KEY" in the .env file, with your information, as shown below, and save the changes.
+   - `DISCORD_TOKEN='YOUR DISCORD BOT TOKEN'`
+   - `OPENAI_API_KEY='YOUR OPENAI API KEY'`
 
-Then, rename "env.example" to ".env" and open it. Paste your token in where "DISCORD_TOKEN" is located. And save.
+## Dependency Installation
 
-------------------------------------------------
+1. Install Python by visiting the [Python Downloads](https://www.python.org/downloads/) page and following the provided instructions.
+2. Open a command prompt or terminal window and enter `pip install py-cord` to install the Py-cord library.
+3. Enter `pip install translatepy` to install the Translatepy library.
+4. Enter `pip install python-dotenv` to install the Python-dotenv library.
+5. Enter `pip install psutil` to install the Psutil library.
+6. Enter `pip install aiofiles` to install the Aiofiles library.
 
-Let's install pycord and other libraries now. 
+## Bot Execution
 
-First install python, go to [python downloads](https://www.python.org/downloads/), select your build and follow the instructions.
+1. Navigate to the DiscordTransBot directory on your local machine.
+2. Execute the command `python3 DiscordBot.py` or `python DiscordBot.py` to start the bot.
 
-Second, press "WIN + R" and type: `pip install py-cord`, and wait until the installation is in progress.
+## Bot Invitation
 
-Then, type: `pip install translatepy`, and wait until the installation is in progress.
-
-Then, type: `pip install python-dotenv`, and wait until the installation is in progress.
-
-Then, type: `pip install psutil`, and wait until the installation is in progress.
-
-Then, type: `pip install aiofiles`, and wait until the installation is in progress.
-
-Now, go back to your DiscordTransBot git folder on your computer, and then type this in: `python3 DiscordBot.py` or  `python DiscordBot.py` and you have a running bot!
-
-Invite it now, go to dev portal > your bot > OAuth2 > URL generator, and select everything I did:
-
+1. Return to the Discord Developer Portal and access your bot's OAuth2 page.
+   
+2. Use the URL generator tool to create an invitation link for your bot.
 ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/97098c81-f07a-4b16-adae-b3e19b156ed9)
-
 ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/b38b9fa5-35c6-459f-b1b6-5ad2c303cb93)
 
-Copy the link below and paste it in your browser. You are able to invite your bot. And done! Here is some screenshots of the bot features:
+3. Copy the generated link and paste it into your web browser to invite your bot to your server.
+
+## Screenshots
+
+The following images showcase some of the features provided by this bot:
 
 ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/654f4ea9-62ac-4f08-bb39-d3a56bb18caa)
 
@@ -72,6 +84,6 @@ Copy the link below and paste it in your browser. You are able to invite your bo
 
 ![image](https://github.com/yakovexplorer/DiscordTransBot/assets/130591120/9a4b2a2f-2afa-49cc-9df6-a2c330e758cc)
 
-----------------------------------------------------------
+## Licensing
 
-The code is licensed under [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html), I recommend reading conditions here: [file](https://github.com/yakovexplorer/DiscordTranslateBot/blob/main/LICENSE)
+The source code contained within this repository is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). We strongly recommend reviewing the licensing terms specified in this [file](https://github.com/yakovexplorer/DiscordTranslateBot/blob/main/LICENSE).
