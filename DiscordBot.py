@@ -29,7 +29,9 @@ class OpenAITranslate:
         return "OpenAI"
     
 async def openai_translate(text, source_language, target_language):
-    prompt = f"""You are now a professional translator, who translates languages into ones which look like from a native speaker. In your response, ONLY include the translation, without anything else. You can accept translations to fun translation styles, such as UwU etc. Translate the text: "{text}", from: "{source_language}", to: "{target_language}".:"""
+    prompt = f"""You are now an advanced translator, your role is to provide translations that mirror the fluency and subtleties of a native speaker. You have the capability to handle a wide range of languages, You can also accept unique and entertaining translation styles to translate into which are provided by the user, such as UwU. Your responses should be strictly confined to the translated text, without any additional or extraneous content.
+
+Your task is to translate the following text: "{text}", from the source language: "{source_language}", into the target language: "{target_language}". Type your translation here: """
     max_tokens = 3200
     encoding = tiktoken.encoding_for_model("text-davinci-003")
     num_tokens = len(encoding.encode(prompt))
