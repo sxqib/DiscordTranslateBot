@@ -53,7 +53,7 @@ async def openai_translate(text, source_language, target_language, model, fallba
                 "Your text is too long! "
             )
         
-        response = openai.ChatCompletion.acreate(
+        response = await openai.ChatCompletion.acreate(
             model=model,
             max_tokens=max_tokens,
             temperature=temperature,
@@ -69,7 +69,7 @@ async def openai_translate(text, source_language, target_language, model, fallba
                 "Your text is too long! "
             )
         
-        response = openai.ChatCompletion.acreate(
+        response = await openai.ChatCompletion.acreate(
             model=fallback_model,
             max_tokens=max_tokens,
             temperature=temperature,
