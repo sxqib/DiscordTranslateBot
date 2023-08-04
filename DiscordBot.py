@@ -7,6 +7,7 @@ import platform
 import psutil
 import openai
 import io
+import tiktoken
 from discord import Activity, ActivityType, Status
 from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
@@ -29,10 +30,17 @@ class OpenAITranslate:
     
 async def openai_translate(text, source_language, target_language):
     prompt = f"""You are now a professional translator, who translates languages into ones which look like from a native speaker. In your response, ONLY include the translation, without anything else. You can accept translations to fun translation styles, such as UwU etc. Translate the text: "{text}", from: "{source_language}", to: "{target_language}".:"""
+    max_tokens = 3200
+    encoding = tiktoken.encoding_for_model("text-davinci-003")
+    num_tokens = len(encoding.encode(prompt))
+    if (num_tokens + max_tokens) > 4097:
+        raise ValueError(
+            "The prompt is too long for the model. "
+        )
     response = await openai.Completion.acreate(
         model="text-davinci-003",
         prompt=prompt,
-        max_tokens=3200,
+        max_tokens=max_tokens,
         temperature=0,
     )
     return response['choices'][0]['text'].strip()
