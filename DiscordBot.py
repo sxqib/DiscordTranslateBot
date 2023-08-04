@@ -92,7 +92,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     if not ((text or file) and from_lang and to_lang):
         embed = discord.Embed(
             title="❌ Missing Parameters!",
-            description="Parameters (text, from_lang, and to_lang) are required!",
+            description="Parameters (text or file, from_lang, and to_lang) are required!",
             color=discord.Colour.red(),
         )
         embed.add_field(name="Tip:", value="If you're using a .txt file, make sure you uploaded it.", inline=False)
@@ -150,7 +150,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     if len(translated_text) > 900:
         result_text = "The translated text is too long to display here. Please check the attached txt file for the full translation."
         # Create a discord.File object with the contents of the translation
-        file = discord.File(io.StringIO(f"Original Text: {text}\n\nTranslated Text: {translated_text}"), filename="translation.txt")
+        file = discord.File(io.StringIO(f"Original Text:\n\n{text}\n\n\n\nTranslated Text:\n\n{translated_text}"), filename="translation.txt")
     else:
         result_text = "Your translated text is: " + str(translated_text)
         file = None
