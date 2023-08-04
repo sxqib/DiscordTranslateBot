@@ -32,7 +32,7 @@ async def openai_translate(text, source_language, target_language):
     response = await openai.Completion.acreate(
         model="text-davinci-003",
         prompt=prompt,
-        max_tokens=3000,
+        max_tokens=3600,
         temperature=0,
     )
     return response['choices'][0]['text'].strip()
