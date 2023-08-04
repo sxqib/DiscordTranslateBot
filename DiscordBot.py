@@ -6,6 +6,7 @@ import json
 import platform
 import psutil
 import openai
+import io
 from discord import Activity, ActivityType, Status
 from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
@@ -21,6 +22,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 openai.api_base = 'https://chimeragpt.adventblocks.cc/api/v1'
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+
 class OpenAITranslate:
     def __str__(self):
         return "OpenAI"
@@ -30,7 +32,7 @@ async def openai_translate(text, source_language, target_language):
     response = await openai.Completion.acreate(
         model="text-davinci-003",
         prompt=prompt,
-        max_tokens=4097,
+        max_tokens=3000,
         temperature=0,
     )
     return response['choices'][0]['text'].strip()
@@ -86,8 +88,8 @@ async def on_ready():
     print("Bot is ready")
 
 @bot.command(description="Translates the text to a selected language")
-async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str = None):
-    if not (text and from_lang and to_lang):
+async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str = None, file: discord.Attachment = None):
+    if not (text or file and from_lang and to_lang):
         embed = discord.Embed(
             title="❌ Missing Parameters!",
             description="Parameters (text, from_lang, and to_lang) are required!",
@@ -96,6 +98,21 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
         embed.set_footer(text="Made by TranslatorBot team.")
         await ctx.respond(embed=embed, ephemeral=True)
         return
+    
+    if file:
+        # check if file is .txt
+        if file.filename.split('.')[-1] != 'txt':
+            embed = discord.Embed(
+                title="❌ Invalid File!",
+                description="File must be a .txt file!",
+                color=discord.Colour.red(),
+            )
+            embed.set_footer(text="Made by TranslatorBot team.")
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
+        # read the file contents without downloading and save it to text
+        text = await file.read()
+        text = text.decode('utf-8')
 
     translator = await fetch_translator(ctx.author.id)
     
@@ -125,6 +142,18 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
         await ctx.respond(embed=embed2, ephemeral=True)
         return
 
+    original_text = text
+    if len(original_text) > 900:
+        original_text = "The original text is too long to display here."
+
+    if len(translated_text) > 900:
+        result_text = "The translated text is too long to display here. Please check the attached txt file for the full translation."
+        # Create a discord.File object with the contents of the translation
+        file = discord.File(io.StringIO(f"Original Text: {text}\n\nTranslated Text: {translated_text}"), filename="translation.txt")
+    else:
+        result_text = "Your translated text is: " + str(translated_text)
+        file = None
+
     embed3 = discord.Embed(
         title="✅ We do have results!",
         description="Your text was translated! The config and the text are below:",
@@ -133,11 +162,11 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     embed3.add_field(name="Text language", value="Your text language: " + str(from_lang), inline=False)
     embed3.add_field(name="Target language", value="Your text target language: " + str(to_lang), inline=False)
     embed3.add_field(name="Service used", value=str(translator) + " Translate", inline=False)
-    embed3.add_field(name="Original text", value=text, inline=False)
-    embed3.add_field(name="Result Text", value="Your translated text is: " + str(translated_text), inline=False)
+    embed3.add_field(name="Original text", value=original_text, inline=False)
+    embed3.add_field(name="Result Text", value=result_text, inline=False)
     embed3.set_footer(text=f"Made by TranslatorBot team. Request by {ctx.author.name}.") 
 
-    await ctx.send(embed=embed3)
+    await ctx.send(file=file, embed=embed3)
 
 @bot.command(description="Checks the bot's latency")
 async def ping(ctx):
