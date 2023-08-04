@@ -95,6 +95,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
             description="Parameters (text, from_lang, and to_lang) are required!",
             color=discord.Colour.red(),
         )
+        embed.add_field(name="Tip:", value="If you're using a .txt file, make sure you uploaded it.", inline=False)
         embed.set_footer(text="Made by TranslatorBot team.")
         await ctx.respond(embed=embed, ephemeral=True)
         return
