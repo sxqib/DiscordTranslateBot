@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
 from translatepy.translators.yandex import YandexTranslate
 from translatepy.translators.microsoft import MicrosoftTranslate
-from translatepy.translators.reverso import ReversoTranslate
 from translatepy.translators.deepl import DeeplTranslate
 
 load_dotenv()
@@ -91,7 +90,6 @@ async def fetch_translator_service(service_name):
         'DeepL': DeeplTranslate,
         'Google': GoogleTranslate,
         'Yandex': YandexTranslate,
-        'Reverso': ReversoTranslate,
         'Microsoft': MicrosoftTranslate,
         'OpenAI': OpenAITranslate,
     }
