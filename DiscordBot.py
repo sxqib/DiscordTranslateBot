@@ -377,6 +377,6 @@ async def status(ctx):
     for translator, translator_status in status.items():
         embed.add_field(name=translator, value=translator_status, inline=False)
     embed.set_footer(text="Made by TranslatorBot team.")
-    await ctx.respond(content=ctx.author.mention, embed=embed)
+    await ctx.respond(content=ctx.author.mention, embed=embed, ephemeral=True)
 
 bot.run(TOKEN)
