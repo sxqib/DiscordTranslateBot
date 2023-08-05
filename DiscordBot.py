@@ -365,6 +365,7 @@ async def hostinfo(ctx):
 
 @bot.command(description="Check the current status of the translation services.")
 async def status(ctx):
+    await ctx.defer()
     status = await bot_status()
     
     embed = discord.Embed(
@@ -376,7 +377,7 @@ async def status(ctx):
         embed.add_field(name=translator, value=translator_status, inline=False)
     embed.set_footer(text="Made by TranslatorBot team.")
     try:
-        await ctx.respond(content=ctx.author.mention, embed=embed, ephemeral=True)
+        await ctx.respond(content=ctx.author.mention, embed=embed)
     except Exception:
         pass
 
