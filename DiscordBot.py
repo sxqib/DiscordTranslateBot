@@ -102,7 +102,8 @@ async def fetch_translator_service(service_name):
         return DeeplTranslate()
 
 async def translatefunc(loop, text: str = None, from_lang: str = None, to_lang: str = None, translator = None):
-    return await loop.run_in_executor(None, lambda: translator.translate(text, source_language=from_lang, destination_language=to_lang))
+    translation = await loop.run_in_executor(None, lambda: translator.translate(text, source_language=from_lang, destination_language=to_lang))
+    return translation.result
 
 # Return the status of the bot of every translator, containing the translation from every translator, for the text "The bot is working!".
 async def bot_status():
@@ -128,8 +129,7 @@ async def bot_status():
         else:
             loop = asyncio.get_event_loop()
             try:
-                translator_obj = await fetch_translator(translator)
-                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator_obj)
+                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
                 if len(translated_text) > 0:
                     status[translator] = "🟢 Working, currently available."
                 else:
@@ -378,8 +378,6 @@ async def status(ctx):
     embed.set_footer(text="Made by TranslatorBot team.")
     try:
         await ctx.respond(content=ctx.author.mention, embed=embed, ephemeral=True)
-    except Exception:
-        await ctx.send(content=ctx.author.mention, embed=embed, ephemeral=True)
     except Exception:
         pass
 
