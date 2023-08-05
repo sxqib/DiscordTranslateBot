@@ -127,9 +127,67 @@ async def fetch_translator_service(service_name):
 async def translatefunc(loop, text: str = None, from_lang: str = None, to_lang: str = None, translator = None):
     return await loop.run_in_executor(None, lambda: translator.translate(text, source_language=from_lang, destination_language=to_lang))
 
+# Return the status of the bot of every translator, containing the translation from every translator, for the text "The bot is working!".
+async def bot_status():
+    async with aiofiles.open('./JSONsDir/avaliable.json', 'r') as f:
+        avaliable_translators = await f.read()
+    avaliable_translators = json.loads(avaliable_translators)
+    
+    status = {}
+    text = "test"
+    from_lang = "English"
+    to_lang = "Russian"
+    
+    for translator in avaliable_translators:
+        if translator == "OpenAI":
+            try:
+                translated_text = await openai_translate(text, from_lang, to_lang, "gpt-4", "gpt-3.5-turbo")
+                if len(translated_text) > 0:
+                    status[translator] = "🟢"
+                else:
+                    status[translator] = "🔴"
+            except Exception:
+                status[translator] = "🔴"
+        else:
+            loop = asyncio.get_event_loop()
+            try:
+                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
+                if len(translated_text) > 0:
+                    status[translator] = "🟢"
+                else:
+                    status[translator] = "🔴"
+            except Exception:
+                status[translator] = "🔴"
+             
+    return status
+
+# Update the bot status message in a channel, in an embed
+async def update_status_message(channel_id, sleep_time):
+    await bot.wait_until_ready()
+    while True:
+        status = await bot_status()
+        embed = discord.Embed(
+            title="📊 Translation Services Status",
+            description="Status of the translation services:",
+            color=discord.Colour.blue(),
+        )
+        for translator, translator_status in status.items():
+            embed.add_field(name=translator, value=translator_status, inline=False)
+        embed.set_footer(text="Made by TranslatorBot team.")
+        
+        channel = bot.get_channel(channel_id)
+        # If there is a message from the bot id in the channel, update it, otherwise, send a new message
+        if channel.last_message.author.id == bot.user.id:
+            await channel.last_message.edit(embed=embed)
+        else:
+            await channel.send(embed=embed)
+        
+        await asyncio.sleep(sleep_time)
+
 @bot.event
 async def on_ready():
     bot.loop.create_task(update_status())
+    bot.loop.create_task(update_status_message(1137017047486832772, 120))
     print("Bot is ready")
 
 @bot.command(description="Translates the text to a selected language")
@@ -327,5 +385,19 @@ async def hostinfo(ctx):
     )
     embed.set_footer(text="Made by TranslatorBot team.")
     await ctx.respond(embed=embed, ephemeral=True)
+
+@bot.command(description="Check the current status of the translation services.")
+async def status(ctx):
+    status = await bot_status()
+    
+    embed = discord.Embed(
+        title="📊 Translation Services Status",
+        description="Status of the translation services:",
+        color=discord.Colour.blue(),
+    )
+    for translator, translator_status in status.items():
+        embed.add_field(name=translator, value=translator_status, inline=False)
+    embed.set_footer(text="Made by TranslatorBot team.")
+    await ctx.respond(content=ctx.author.mention, embed=embed)
 
 bot.run(TOKEN)
