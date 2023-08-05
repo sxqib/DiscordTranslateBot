@@ -28,7 +28,7 @@ class OpenAITranslate:
     def __str__(self):
         return "OpenAI"
     
-async def openai_translate(text, source_language, target_language, model):
+async def openai_translate(text, source_language, target_language, model=None):
     prompt = "You are now an advanced translator, your role is to provide translations that mirror the fluency and subtleties of a native speaker. You have the capability to handle a wide range of languages, You can also accept unique and entertaining translation styles to translate into which are provided by the user, such as UwU. Your responses should be strictly confined to the translated text, without any additional or extraneous content."
     
     temperature = 0
@@ -55,9 +55,7 @@ async def openai_translate(text, source_language, target_language, model):
         messages=messages
     )
 
-    translation = response['choices'][0]['message']['content']
- 
-    return translation
+    return response['choices'][0]['message']['content']
 
 bot = discord.Bot()
 
