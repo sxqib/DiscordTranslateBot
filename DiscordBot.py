@@ -159,13 +159,13 @@ async def update_status_message(channel_id, message_id, sleep_time):
             await message.edit(embed=embed)
         except Exception:
             await channel.send(embed=embed)
-        
+            
         await asyncio.sleep(sleep_time)
 
 @bot.event
 async def on_ready():
     bot.loop.create_task(update_status())
-    bot.loop.create_task(update_status_message(1137017047486832772, 180))
+    bot.loop.create_task(update_status_message(1137017047486832772, 1137332687321964594, 180))
     print("Bot is ready")
 
 @bot.command(description="Translates the text to a selected language")
