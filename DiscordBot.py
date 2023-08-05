@@ -128,7 +128,8 @@ async def bot_status():
         else:
             loop = asyncio.get_event_loop()
             try:
-                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
+                translator_obj = await fetch_translator(translator)
+                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator_obj)
                 if len(translated_text) > 0:
                     status[translator] = "🟢 Working, currently available."
                 else:
