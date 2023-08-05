@@ -94,6 +94,8 @@ async def update_status():
         await asyncio.sleep(60)
         await bot.change_presence(activity=discord.Game(name="invite me: https://i8.ae/qDPOb"), status=Status.idle)
         await asyncio.sleep(60)
+        await bot.change_presence(activity=discord.Game(name="community server: https://discord.gg/j72z3jsZS3"), status=Status.idle)
+        await asyncio.sleep(60)
 
 async def fetch_translator(user_id):
     async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
