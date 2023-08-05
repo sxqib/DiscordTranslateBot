@@ -122,21 +122,21 @@ async def bot_status():
             try:
                 translated_text = await openai_translate(text, from_lang, to_lang, "gpt-3.5-turbo")
                 if len(translated_text) > 0:
-                    status[translator] = "🟢"
+                    status[translator] = "🟢 Working, currently available."
                 else:
-                    status[translator] = "🔴"
+                    status[translator] = "🔴 Not Working, currently unavailable."
             except Exception:
-                status[translator] = "🔴"
+                status[translator] = "🔴 Not Working, currently unavailable."
         else:
             loop = asyncio.get_event_loop()
             try:
                 translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
                 if len(translated_text) > 0:
-                    status[translator] = "🟢"
+                    status[translator] = "🟢 Working, currently available."
                 else:
-                    status[translator] = "🔴"
+                    status[translator] = "🔴 Not Working, currently unavailable."
             except Exception:
-                status[translator] = "🔴"
+                status[translator] = "🔴 Not Working, currently unavailable."
              
     return status
 
@@ -166,7 +166,7 @@ async def update_status_message(channel_id, sleep_time):
 @bot.event
 async def on_ready():
     bot.loop.create_task(update_status())
-    bot.loop.create_task(update_status_message(1137017047486832772, 120))
+    bot.loop.create_task(update_status_message(1137017047486832772, 180))
     print("Bot is ready")
 
 @bot.command(description="Translates the text to a selected language")
