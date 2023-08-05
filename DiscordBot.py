@@ -140,7 +140,7 @@ async def bot_status():
     return status
 
 # Update the bot status message in a channel, in an embed
-async def update_status_message(channel_id, sleep_time):
+async def update_status_message(channel_id, message_id, sleep_time):
     await bot.wait_until_ready()
     while True:
         status = await bot_status()
@@ -154,10 +154,10 @@ async def update_status_message(channel_id, sleep_time):
         embed.set_footer(text="Made by TranslatorBot team.")
         
         channel = bot.get_channel(channel_id)
-        # If there is a message from the bot id in the channel, update it, otherwise, send a new message
-        if channel.last_message is not None and channel.last_message.author.id == bot.user.id:
-            await channel.last_message.edit(embed=embed)
-        else:
+        try:
+            message = await channel.fetch_message(message_id)
+            await message.edit(embed=embed)
+        except Exception:
             await channel.send(embed=embed)
         
         await asyncio.sleep(sleep_time)
