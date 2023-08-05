@@ -28,56 +28,35 @@ class OpenAITranslate:
     def __str__(self):
         return "OpenAI"
     
-async def openai_translate(text, source_language, target_language, model, fallback_model):
+async def openai_translate(text, source_language, target_language, model):
     prompt = "You are now an advanced translator, your role is to provide translations that mirror the fluency and subtleties of a native speaker. You have the capability to handle a wide range of languages, You can also accept unique and entertaining translation styles to translate into which are provided by the user, such as UwU. Your responses should be strictly confined to the translated text, without any additional or extraneous content."
     
     temperature = 0
     
-    if model == "gpt-4":
-        max_tokens = 6000
-        max_limit = 8192
-    else:
-        max_tokens = 3000
-        max_limit = 4097
+    max_tokens = 2000
+    max_limit = 4097
     
     messages=[
         {"role": "system", "content": prompt},
         {"role": "user", "content": f"Translate the following text: '{text}', from the source language: '{source_language}', into the target language: '{target_language}'"}
     ]
     
-    try:
-        encoding = tiktoken.encoding_for_model(model)
-        num_tokens = len(encoding.encode(prompt))
-        if (num_tokens + max_tokens) > max_limit:
-            raise ValueError(
-                "Your text is too long! "
-            )
-        
-        response = await openai.ChatCompletion.acreate(
-            model=model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            messages=messages
+    encoding = tiktoken.encoding_for_model(model)
+    num_tokens = len(encoding.encode(prompt))
+    if (num_tokens + max_tokens) > max_limit:
+        raise ValueError(
+            "Your text is too long! "
         )
-
-        translation = response['choices'][0]['message']['content']
-    except:
-        encoding = tiktoken.encoding_for_model(fallback_model)
-        num_tokens = len(encoding.encode(prompt))
-        if (num_tokens + max_tokens) > max_limit:
-            raise ValueError(
-                "Your text is too long! "
-            )
-        
-        response = await openai.ChatCompletion.acreate(
-            model=fallback_model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            messages=messages
-        )
-
-        translation = response['choices'][0]['message']['content']
     
+    response = await openai.ChatCompletion.acreate(
+        model=model,
+        max_tokens=max_tokens,
+        temperature=temperature,
+        messages=messages
+    )
+
+    translation = response['choices'][0]['message']['content']
+ 
     return translation
 
 bot = discord.Bot()
@@ -141,7 +120,7 @@ async def bot_status():
     for translator in avaliable_translators:
         if translator == "OpenAI":
             try:
-                translated_text = await openai_translate(text, from_lang, to_lang, "gpt-4", "gpt-3.5-turbo")
+                translated_text = await openai_translate(text, from_lang, to_lang, "gpt-3.5-turbo")
                 if len(translated_text) > 0:
                     status[translator] = "🟢"
                 else:
@@ -233,7 +212,7 @@ async def translate(ctx, text: str = None, from_lang: str = None, to_lang: str =
     try:
         if isinstance(translator, OpenAITranslate):
             try:
-                translated_text = await openai_translate(text, from_lang, to_lang, "gpt-4", "gpt-3.5-turbo")
+                translated_text = await openai_translate(text, from_lang, to_lang, "gpt-3.5-turbo")
             except Exception as E:
                 if "Your text is too long!" in str(E):
                     embed4 = discord.Embed(
