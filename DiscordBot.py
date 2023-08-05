@@ -128,7 +128,8 @@ async def bot_status():
         else:
             loop = asyncio.get_event_loop()
             try:
-                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator)
+                translator_obj = await fetch_translator(translator)
+                translated_text = await translatefunc(loop, text, from_lang, to_lang, translator_obj)
                 if len(translated_text) > 0:
                     status[translator] = "🟢 Working, currently available."
                 else:
@@ -139,7 +140,7 @@ async def bot_status():
     return status
 
 # Update the bot status message in a channel, in an embed
-async def update_status_message(channel_id, sleep_time):
+async def update_status_message(channel_id, message_id, sleep_time):
     await bot.wait_until_ready()
     while True:
         status = await bot_status()
@@ -153,18 +154,18 @@ async def update_status_message(channel_id, sleep_time):
         embed.set_footer(text="Made by TranslatorBot team.")
         
         channel = bot.get_channel(channel_id)
-        # If there is a message from the bot id in the channel, update it, otherwise, send a new message
-        if channel.last_message is not None and channel.last_message.author.id == bot.user.id:
-            await channel.last_message.edit(embed=embed)
-        else:
+        try:
+            message = await channel.fetch_message(message_id)
+            await message.edit(embed=embed)
+        except Exception:
             await channel.send(embed=embed)
-        
+            
         await asyncio.sleep(sleep_time)
 
 @bot.event
 async def on_ready():
     bot.loop.create_task(update_status())
-    bot.loop.create_task(update_status_message(1137017047486832772, 180))
+    bot.loop.create_task(update_status_message(1137017047486832772, 1137332687321964594, 180))
     print("Bot is ready")
 
 @bot.command(description="Translates the text to a selected language")
