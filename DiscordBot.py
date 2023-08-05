@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from translatepy.translators.google import GoogleTranslate
 from translatepy.translators.yandex import YandexTranslate
 from translatepy.translators.microsoft import MicrosoftTranslate
+from translatepy.translators.reverso import ReversoTranslate
 from translatepy.translators.deepl import DeeplTranslate
 
 load_dotenv()
@@ -91,6 +92,7 @@ async def fetch_translator_service(service_name):
         'Google': GoogleTranslate,
         'Yandex': YandexTranslate,
         'Microsoft': MicrosoftTranslate,
+        'Reverso': ReversoTranslate,
         'OpenAI': OpenAITranslate,
     }
     
@@ -285,7 +287,7 @@ async def ping(ctx):
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Changes the translator service")
-async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Microsoft", "OpenAI"])):
+async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Microsoft", "Reverso", "OpenAI"])):
     async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
         translators = await f.read()
     translators = json.loads(translators)
