@@ -154,12 +154,12 @@ async def update_status_message(channel_id, sleep_time):
         
         channel = bot.get_channel(channel_id)
         # If there is a message from the bot id in the channel, update it, otherwise, send a new message
-        if channel.last_message.author.id == bot.user.id:
+        if channel.last_message is not None and channel.last_message.author.id == bot.user.id:
             await channel.last_message.edit(embed=embed)
         else:
             await channel.send(embed=embed)
         
-        await asyncio.sleep(sleep_time)
+        await asyncio.sleep(embed=embed)
 
 @bot.event
 async def on_ready():
@@ -375,6 +375,11 @@ async def status(ctx):
     for translator, translator_status in status.items():
         embed.add_field(name=translator, value=translator_status, inline=False)
     embed.set_footer(text="Made by TranslatorBot team.")
-    await ctx.respond(content=ctx.author.mention, embed=embed, ephemeral=True)
+    try:
+        await ctx.respond(content=ctx.author.mention, embed=embed, ephemeral=True)
+    except Exception:
+        await ctx.send(content=ctx.author.mention, embed=embed, ephemeral=True)
+    except Exception:
+        pass
 
 bot.run(TOKEN)
