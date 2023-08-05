@@ -157,7 +157,7 @@ async def update_status_message(channel_id, sleep_time):
         if channel.last_message is not None and channel.last_message.author.id == bot.user.id:
             await channel.last_message.edit(embed=embed)
         else:
-            await channel.send("New status message")
+            await channel.send(embed=embed)
         
         await asyncio.sleep(embed=embed)
 
