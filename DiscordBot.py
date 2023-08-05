@@ -285,7 +285,7 @@ async def ping(ctx):
     await ctx.respond(embed=embed, ephemeral=True)
 
 @bot.command(description="Changes the translator service")
-async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Reverso", "Microsoft", "OpenAI"])):
+async def change_translator(ctx, service: discord.Option(str, choices=["DeepL", "Google", "Yandex", "Microsoft", "OpenAI"])):
     async with aiofiles.open('./JSONsDir/translators.json', 'r') as f:
         translators = await f.read()
     translators = json.loads(translators)
