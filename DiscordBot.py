@@ -123,8 +123,8 @@ async def bot_status():
                     status[translator] = "🟢 Working, currently available."
                 else:
                     status[translator] = "🔴 Not Working, currently unavailable."
-            except Exception:
-                status[translator] = "🔴 Not Working, currently unavailable."
+            except Exception as E:
+                status[translator] = f"🔴 Not Working, currently unavailable. Error: {str(E)}"
         else:
             loop = asyncio.get_event_loop()
             try:
@@ -133,8 +133,8 @@ async def bot_status():
                     status[translator] = "🟢 Working, currently available."
                 else:
                     status[translator] = "🔴 Not Working, currently unavailable."
-            except Exception:
-                status[translator] = "🔴 Not Working, currently unavailable."
+            except Exception as E:
+                status[translator] = f"🔴 Not Working, currently unavailable. Error: {str(E)}"
              
     return status
 
@@ -159,7 +159,7 @@ async def update_status_message(channel_id, sleep_time):
         else:
             await channel.send(embed=embed)
         
-        await asyncio.sleep(embed=embed)
+        await asyncio.sleep(sleep_time)
 
 @bot.event
 async def on_ready():
